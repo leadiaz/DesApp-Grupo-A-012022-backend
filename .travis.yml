@@ -1,6 +1,4 @@
 language: java
 sudo: required
-jdk:
-  - oraclejdk11
-install:
-  - mvn clean install
+jdk: oraclejdk11
+install: mvn clean install
