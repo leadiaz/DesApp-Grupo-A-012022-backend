@@ -1,6 +1,6 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.User;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.UserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,11 +20,11 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> save(@RequestBody User body){
+    public ResponseEntity<UserDto> save(@RequestBody UserDto body){
         return ResponseEntity.ok(this.userService.save(body));
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> getAll(){
+    public List<UserDto> getAll(){
         return this.userService.getAll();
     }
 }
