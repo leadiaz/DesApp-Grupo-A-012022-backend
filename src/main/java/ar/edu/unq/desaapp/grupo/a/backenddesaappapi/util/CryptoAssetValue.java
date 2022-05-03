@@ -1,27 +1,11 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoAsset;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoAssetsEnum;
 import com.google.gson.Gson;
 import org.springframework.web.reactive.function.client.WebClient;
 
 public class  CryptoAssetValue {
-
-    enum CryptoAssets {
-        ALICEUSDT,
-        MATICUSDT,
-        AXSUSDT,
-        AAVEUSDT,
-        ATOMUSDT,
-        NEOUSDT,
-        DOTUSDT,
-        ETHUSDT,
-        CAKEUSDT,
-        BTCUSDT,
-        BNBUSDT,
-        ADAUSDT,
-        TRXUSDT,
-        AUDIOUSDT
-    }
 
     private String urlAPI = "https://api1.binance.com/api/v3/ticker";
 
@@ -31,7 +15,7 @@ public class  CryptoAssetValue {
         this.webClient = webClient;
     }
 
-    public float getCryptoAssetValue(CryptoAssets crypto ) {
+    public float getCryptoAssetValue(CryptoAssetsEnum crypto ) {
         CryptoAsset cryptoAsset = new CryptoAsset();
         Gson g = new Gson();
 
