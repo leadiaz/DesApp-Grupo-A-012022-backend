@@ -1,6 +1,5 @@
-package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.modeltest;
+package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model;
 
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.UserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util.UserRegisterChecker;
 import org.junit.jupiter.api.Assertions;
