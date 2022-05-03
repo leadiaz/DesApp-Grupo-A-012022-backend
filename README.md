@@ -11,3 +11,5 @@ Swagger (https://criptop2p.herokuapp.com/api/swagger-ui/index.html)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=leadiaz_DesApp-Grupo-A-012022-backend&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=leadiaz_DesApp-Grupo-A-012022-backend)
 
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=leadiaz_DesApp-Grupo-A-012022-backend&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=leadiaz_DesApp-Grupo-A-012022-backend)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=leadiaz_DesApp-Grupo-A-012022-backend&metric=coverage)](https://sonarcloud.io/summary/new_code?id=leadiaz_DesApp-Grupo-A-012022-backend)
