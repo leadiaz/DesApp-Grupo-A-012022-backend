@@ -1,7 +1,7 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.exception.UserRegisterException;
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.User;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,6 +1,6 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.repositories;
 
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.User;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;

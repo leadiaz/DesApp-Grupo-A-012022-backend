@@ -20,4 +20,12 @@ public class ApiErrorHandler {
     public ErrorMessage badRequest(HttpServletRequest request, Exception exception){
         return new ErrorMessage(exception, request.getRequestURI());
     }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler({
+            EntityNotFoundException.class
+    })
+    public ErrorMessage notFound(HttpServletRequest request, Exception exception){
+        return new ErrorMessage(exception, request.getRequestURI());
+    }
+
 }
