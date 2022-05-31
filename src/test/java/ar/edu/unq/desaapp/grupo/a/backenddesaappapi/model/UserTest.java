@@ -1,6 +1,7 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model;
 
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.UserDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util.UserRegisterChecker;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 public class UserTest {
     private User user;
-    private UserDto userDto;
+    private UserRegisterDto userRegisterDto;
     @BeforeEach
     public void setUp(){
         user = new User();
@@ -20,14 +21,14 @@ public class UserTest {
         user.setPassword("Test123?");
         user.setCryptoAssetAddress("leantest");
 
-        userDto= new UserDto();
-        userDto.setName("Leandro 2");
-        userDto.setSurname("Diaz 2");
-        userDto.setEmail("leadiaz94@gmail.com");
-        userDto.setAddress("Calle falsa, 321");
-        userDto.setCvu("1111222233334444555500");
-        userDto.setPassword("Test123?");
-        userDto.setWallet("leantest");
+        userRegisterDto = new UserRegisterDto();
+        userRegisterDto.setName("Leandro 2");
+        userRegisterDto.setSurname("Diaz 2");
+        userRegisterDto.setEmail("leadiaz94@gmail.com");
+        userRegisterDto.setAddress("Calle falsa, 321");
+        userRegisterDto.setCvu("1111222233334444555500");
+        userRegisterDto.setPassword("Test123?");
+        userRegisterDto.setWallet("leantest");
     }
 
     @Test
@@ -70,7 +71,7 @@ public class UserTest {
     }
     @Test
     void toDtoTest(){
-        UserDto dto = user.toDto();
+        UserRegisterDto dto = user.toDto();
         Assertions.assertEquals(dto.getName(), user.getName());
         Assertions.assertEquals(dto.getSurname(), user.getSurname());
         Assertions.assertEquals(dto.getEmail(), user.getEmail());
@@ -82,13 +83,13 @@ public class UserTest {
     @Test
     void fromDtoTest(){
         User user1 = new User();
-        user1.fromDto(userDto);
-        Assertions.assertEquals(user1.getName(), userDto.getName());
-        Assertions.assertEquals(user1.getSurname(), userDto.getSurname());
-        Assertions.assertEquals(user1.getEmail(), userDto.getEmail());
-        Assertions.assertEquals(user1.getPassword(), userDto.getPassword());
-        Assertions.assertEquals(user1.getAddress(), userDto.getAddress());
-        Assertions.assertEquals(user1.getCvu(), userDto.getCvu());
-        Assertions.assertEquals(user1.getCryptoAssetAddress(), userDto.getWallet());
+        user1.fromDto(userRegisterDto);
+        Assertions.assertEquals(user1.getName(), userRegisterDto.getName());
+        Assertions.assertEquals(user1.getSurname(), userRegisterDto.getSurname());
+        Assertions.assertEquals(user1.getEmail(), userRegisterDto.getEmail());
+        Assertions.assertEquals(user1.getPassword(), userRegisterDto.getPassword());
+        Assertions.assertEquals(user1.getAddress(), userRegisterDto.getAddress());
+        Assertions.assertEquals(user1.getCvu(), userRegisterDto.getCvu());
+        Assertions.assertEquals(user1.getCryptoAssetAddress(), userRegisterDto.getWallet());
     }
 }
