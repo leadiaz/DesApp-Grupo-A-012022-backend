@@ -5,8 +5,8 @@ import java.time.format.DateTimeFormatter;
 public class TransactionIntention {
 
     public enum OperationEnum {
-        Compra,
-        Venta
+        PURCHASE,
+        SALE
     }
 
     private CryptoAsset cryptoAsset;
