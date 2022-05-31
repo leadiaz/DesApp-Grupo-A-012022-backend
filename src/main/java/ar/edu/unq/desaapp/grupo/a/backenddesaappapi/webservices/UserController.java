@@ -30,12 +30,12 @@ public class UserController {
         return this.userService.getAll();
     }
 
-    @PostMapping(value = "/intention/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "intention/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createIntention(@PathVariable("id") String id, @RequestBody IntentionRequest intentionRequest){
         userService.createIntention(id, intentionRequest);
         return ResponseEntity.ok("created");
     }
-    @GetMapping(value = "/intentions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "intentions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserTransactionIntentionDto> getAllActiveIntentions(@PathVariable("id") String id){
         return ResponseEntity.ok(userService.getAllActiveIntentions(id));
     }
