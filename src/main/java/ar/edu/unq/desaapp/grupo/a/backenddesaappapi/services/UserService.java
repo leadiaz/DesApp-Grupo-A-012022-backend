@@ -5,6 +5,8 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.UserInfoOperation;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserTransactionIntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.repositories.UserRepository;
@@ -59,5 +61,10 @@ public class UserService {
             userTransactionIntentionDto.setReputation(String.valueOf(userInfo.getPoints() / userInfo.getOperations()));
         }
         return userTransactionIntentionDto;
+    }
+
+    public UserDto login(LoginUserDto body) {
+        User user = userRepository.findByEmailAndPassword(body.getEmail(), body.getPassword()).orElseThrow(() ->new EntityNotFoundException("Invalid Email or Password"));
+        return user.toUserDto();
     }
 }
