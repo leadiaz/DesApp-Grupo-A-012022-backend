@@ -20,8 +20,16 @@ public class User {
     private String address;
     private String password;
     private String cvu;
+    private int totalTransactionsCompleted;
+
+    private int reputation;
+
     @JsonProperty("wallet")
     private String cryptoAssetAddress;
+
+    public int getTotalTransactionsCompleted() {
+        return totalTransactionsCompleted;
+    }
 
     public boolean hasAllDataFilled(){
         return !(name.isEmpty() &&
