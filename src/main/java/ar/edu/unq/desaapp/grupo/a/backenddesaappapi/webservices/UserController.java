@@ -1,6 +1,8 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserTransactionIntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
@@ -29,7 +31,12 @@ public class UserController {
     public List<UserRegisterDto> getAll(){
         return this.userService.getAll();
     }
+    @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> login(@RequestBody LoginUserDto body){
+        UserDto dto = userService.login(body);
+        return ResponseEntity.ok(dto);
 
+    }
     @PostMapping(value = "intention/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity createIntention(@PathVariable("id") String id, @RequestBody IntentionRequest intentionRequest){
         userService.createIntention(id, intentionRequest);
