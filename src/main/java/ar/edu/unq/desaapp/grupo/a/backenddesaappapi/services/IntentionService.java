@@ -1,5 +1,6 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services;
 
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.exception.EntityNotFoundException;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
@@ -29,5 +30,9 @@ public class IntentionService {
         return intentionRepository.findAllByUserAndActive(user, true)
                 .stream()
                 .map(Intention::toDto).collect(Collectors.toList());
+    }
+
+    public Intention getIntentionById(String idIntention) {
+        return intentionRepository.findById(idIntention).orElseThrow(()-> new EntityNotFoundException("Intention not found"));
     }
 }

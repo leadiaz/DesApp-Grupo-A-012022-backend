@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class IntentionDto {
+    private String id;
     private String crypto;
     private Long nominalAmount;
     private String cryptoPrice;

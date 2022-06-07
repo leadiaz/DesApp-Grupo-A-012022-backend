@@ -18,4 +18,14 @@ public class UserInfoOperation {
         this.points = 0L;
         this.operations = 0L;
     }
+
+    public void confirmOperation() {
+        operations += 1;
+    }
+    public void addPoints(Long points){
+        this.points += points;
+    }
+    public void subsPoint(Long points){
+        this.points -= points;
+    }
 }

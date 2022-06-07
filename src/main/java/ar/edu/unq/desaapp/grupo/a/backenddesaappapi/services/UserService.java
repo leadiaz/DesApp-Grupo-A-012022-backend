@@ -50,11 +50,11 @@ public class UserService {
     @Transactional
     public UserTransactionIntentionDto getAllActiveIntentions(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(()-> new EntityNotFoundException("User Not found"));
-        UserInfoOperation userInfo = userInfoOperationService.findById(email);
+        UserInfoOperation userInfo = userInfoOperationService.findByUserId(user.getId());
         List<IntentionDto> intentionDtos = intentionService.findAllIntentionsActiveByUser(user);
         UserTransactionIntentionDto userTransactionIntentionDto = new UserTransactionIntentionDto();
         userTransactionIntentionDto.setIntentions(intentionDtos);
-        userTransactionIntentionDto.setOperationAmount(userInfo.getOperations());
+        userTransactionIntentionDto.setOperationQuantity(userInfo.getOperations());
         if(userInfo.getOperations() == 0){
             userTransactionIntentionDto.setReputation("No operations");
         }else{
@@ -66,5 +66,9 @@ public class UserService {
     public UserDto login(LoginUserDto body) {
         User user = userRepository.findByEmailAndPassword(body.getEmail(), body.getPassword()).orElseThrow(() ->new EntityNotFoundException("Invalid Email or Password"));
         return user.toUserDto();
+    }
+
+    public User getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail).orElseThrow(()->new EntityNotFoundException("User not found with this email"));
     }
 }
