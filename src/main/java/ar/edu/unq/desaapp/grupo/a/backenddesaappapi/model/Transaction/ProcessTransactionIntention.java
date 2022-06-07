@@ -21,6 +21,10 @@ public class ProcessTransactionIntention {
     private String userNameAndSurname;
     private int totalTransactionsMadeByUser;
     private int userReputation;
+
+    private int reputationIncrease = 5;
+    private int reputationIncreaseWithTimeBonus = 10;
+
     private String deliveryAddress;
     private String cancelMessage = "Cancelar";
     private String confirmMessage;
@@ -95,9 +99,17 @@ public class ProcessTransactionIntention {
     }
 
 
-    public void onTransactionAccepted(TransactionIntention transactionIntention) {
-
+    public void onTransactionAccepted(TransactionIntention transactionIntention, User userThatacceptedTransaction) {
         boolean operationHasBeenCompletedInPositiveTime = isOperationCompletedOnPositiveTime(transactionIntention);
+        int reputationIncrement = 0;
+        if (operationHasBeenCompletedInPositiveTime){
+            reputationIncrement = this.reputationIncreaseWithTimeBonus;
+        }
+        else{
+            reputationIncrement = this.reputationIncrease;
+        }
+        transactionIntention.getUserEmisor().increaseReputation(reputationIncrement);
+        userThatacceptedTransaction.increaseReputation(reputationIncrement);
     }
 
     private boolean isOperationCompletedOnPositiveTime(TransactionIntention transactionIntention) {

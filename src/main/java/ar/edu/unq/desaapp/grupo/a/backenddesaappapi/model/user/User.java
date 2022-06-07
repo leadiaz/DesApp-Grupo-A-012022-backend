@@ -78,4 +78,8 @@ public class User {
             reputation = 0;
         }
     }
+
+    public void increaseReputation(int reputationIncrement) {
+        reputation += reputationIncrement;
+    }
 }
