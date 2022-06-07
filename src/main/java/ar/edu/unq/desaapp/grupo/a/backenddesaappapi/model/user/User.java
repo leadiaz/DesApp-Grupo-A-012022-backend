@@ -31,6 +31,7 @@ public class User {
         return totalTransactionsCompleted;
     }
 
+
     public boolean hasAllDataFilled(){
         return !(name.isEmpty() &&
                surname.isEmpty() &&
@@ -68,5 +69,13 @@ public class User {
         dto.setName(name);
         dto.setSurname(surname);
         return dto;
+    }
+
+    public void decreaseReputation(int reputationPointsDecreaseByCancelation) {
+        // asumiendo que no se puede tener reputacion negativa
+        reputation -= reputationPointsDecreaseByCancelation;
+        if (reputation < 0){
+            reputation = 0;
+        }
     }
 }

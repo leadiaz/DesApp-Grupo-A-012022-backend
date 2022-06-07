@@ -13,4 +13,8 @@ public class CryptoQuote {
         this.usdPrice = usdPrice;
         this.pesosPrice = pesosPrice;
     }
+
+    public String getPesosPrice() {
+        return pesosPrice;
+    }
 }

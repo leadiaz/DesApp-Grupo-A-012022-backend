@@ -30,7 +30,7 @@ public class CryptoQuoteService {
             "AUDIOUSDT"
     );
     private RestTemplate restTemplate = new RestTemplate();
-    public CryptoQuote getCrytoQuote(String cryptoType) {
+    public CryptoQuote getCryptoQuote(String cryptoType) {
         String url = "https://api1.binance.com/api/v3/ticker/price?symbol=" + cryptoType;
         BinanceResponce binanceResponce = restTemplate.getForObject(url, BinanceResponce.class);
         USDResponse usdResponse = getUSDQuoteToPesos();
@@ -44,6 +44,6 @@ public class CryptoQuoteService {
     }
 
     public List<CryptoQuote> getAllCryptoQuote() {
-        return cryptoSymbols.stream().map(this::getCrytoQuote).collect(Collectors.toList());
+        return cryptoSymbols.stream().map(this::getCryptoQuote).collect(Collectors.toList());
     }
 }
