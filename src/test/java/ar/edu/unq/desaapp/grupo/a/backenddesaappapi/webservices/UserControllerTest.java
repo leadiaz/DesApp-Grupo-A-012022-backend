@@ -4,10 +4,7 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util.ObjectMapperString;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,13 +23,6 @@ public class UserControllerTest {
     @MockBean
     private UserService userService;
 
-    private String getStringFromObject(Object object) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        return ow.writeValueAsString(object);
-    }
-
     @Test
     public void testLoginUser() throws Exception{
         LoginUserDto loginUserDto = new LoginUserDto();
@@ -46,7 +36,7 @@ public class UserControllerTest {
         user.setEmail("lead@gmail.com");
         user.setPassword("Est03sUn4P4ss?");
         when(userService.login(loginUserDto)).thenReturn(user.toUserDto());
-        String requestJson = getStringFromObject(loginUserDto);
+        String requestJson = ObjectMapperString.getStringFromObject(loginUserDto);
         mvc.perform(post("/user/login").contentType(MediaType.APPLICATION_JSON).content(requestJson))
                 .andExpect(jsonPath("$.name").value("Leandro"))
                 .andExpect(jsonPath("$.surname").value("Diaz"));
@@ -73,7 +63,7 @@ public class UserControllerTest {
         user.setCryptoAssetAddress("leantest");
 
         when(userService.save(userRegisterDto)).thenReturn(user.toDto());
-        String requestJson = getStringFromObject(userRegisterDto);
+        String requestJson = ObjectMapperString.getStringFromObject(userRegisterDto);
         mvc.perform(post("/user").contentType(MediaType.APPLICATION_JSON).content(requestJson))
                 .andExpect(jsonPath("$.wallet").value("leantest"))
                 .andExpect(jsonPath("$.cvu").value("1111222233334444555500"));

@@ -28,7 +28,7 @@ public class UserController {
     public ResponseEntity<UserRegisterDto> save(@RequestBody UserRegisterDto body){
         return ResponseEntity.ok(this.userService.save(body));
     }
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value= "all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserRegisterDto> getAll(){
         return this.userService.getAll();
     }

@@ -7,4 +7,9 @@ public class BinanceResponce {
     @JsonProperty("symbol")
     private String crypto;
     private String price;
+
+    public BinanceResponce(String symbol, String price){
+        crypto = symbol;
+        this.price = price;
+    }
 }
