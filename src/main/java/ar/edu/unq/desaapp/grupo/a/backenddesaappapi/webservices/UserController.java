@@ -1,5 +1,6 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserDto;
@@ -27,7 +28,7 @@ public class UserController {
     public ResponseEntity<UserRegisterDto> save(@RequestBody UserRegisterDto body){
         return ResponseEntity.ok(this.userService.save(body));
     }
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value= "all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserRegisterDto> getAll(){
         return this.userService.getAll();
     }
@@ -38,9 +39,8 @@ public class UserController {
 
     }
     @PostMapping(value = "intention/{id}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity createIntention(@PathVariable("id") String id, @RequestBody IntentionRequest intentionRequest){
-        userService.createIntention(id, intentionRequest);
-        return ResponseEntity.ok("created");
+    public ResponseEntity<IntentionDto> createIntention(@PathVariable("id") String id, @RequestBody IntentionRequest intentionRequest){
+        return ResponseEntity.ok(userService.createIntention(id, intentionRequest));
     }
     @GetMapping(value = "intentions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserTransactionIntentionDto> getAllActiveIntentions(@PathVariable("id") String id){

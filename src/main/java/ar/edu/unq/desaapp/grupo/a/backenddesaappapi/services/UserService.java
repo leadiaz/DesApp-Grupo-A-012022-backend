@@ -43,9 +43,9 @@ public class UserService {
         return userRepository.findAll().stream().map(User::toDto).collect(Collectors.toList());
     }
     @Transactional
-    public void createIntention(String id, IntentionRequest intentionRequest) {
+    public IntentionDto createIntention(String id, IntentionRequest intentionRequest) {
         User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User Not found"));
-        intentionService.createIntention(user, intentionRequest);
+        return intentionService.createIntention(user, intentionRequest);
     }
     @Transactional
     public UserTransactionIntentionDto getAllActiveIntentions(String id) {
