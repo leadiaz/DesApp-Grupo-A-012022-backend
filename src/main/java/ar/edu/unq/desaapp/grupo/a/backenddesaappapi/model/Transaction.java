@@ -9,6 +9,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +22,7 @@ public class Transaction {
     private Long nominalAmount;
     private String cryptoPrice;
     private String operationAmountArg;
-    private String operation;
+    private String operation;//Todo: provar si se puede usear operationType
     private UserDto interestedUser;
     private UserDto publisherUser;
     private String cvu;
@@ -36,7 +38,7 @@ public class Transaction {
         this.nominalAmount = intention.getNominalAmount();
         this.cryptoPrice = intention.getCryptoPrice();
         this.operationAmountArg = intention.getOperationAmountArg();
-        this.operation = intention.getOperation();
+        this.operation = intention.getOperation().getOperation();
         this.interestedUser = user.toUserDto();
         this.publisherUser = intention.getUser().toUserDto();
         this.setAddress(user);
@@ -52,5 +54,51 @@ public class Transaction {
 
     public TransactionDto toDto() {
         return new TransactionDto();
+    }
+
+    public void confirmTransactionBuy(Intention intention, UserInfoOperation userInfoOperation, String action, BigDecimal variationPercent) {
+        if(variationPercent.compareTo(BigDecimal.valueOf(5)) > 0){
+            this.cancelBySystem(userInfoOperation);
+        }else{
+            evalAction(userInfoOperation, action, intention.getDate(), this.getDate());
+            this.setOperationQuantity(userInfoOperation.getOperations());
+            this.setReputation(userInfoOperation.getReputation());
+        }
+    }
+    private void evalAction(UserInfoOperation userInfoOperation, String action, LocalDateTime intentionDate, LocalDateTime transactionDate) {
+        if(!action.equals("CANCEL")){
+            userInfoOperation.confirmOperation();
+            increaseReputation(userInfoOperation, intentionDate, transactionDate);
+        }else {
+            decreaseReputation(userInfoOperation);
+        }
+    }
+
+    private void decreaseReputation(UserInfoOperation userInfoOperation) {
+        userInfoOperation.subsPoints(20L);
+    }
+
+    private void increaseReputation(UserInfoOperation userInfoOperation, LocalDateTime intentionDate, LocalDateTime transactionDate){
+        Duration duration = Duration.between(intentionDate, transactionDate);
+        long timeInMinutes = duration.getSeconds()/60;
+        if(timeInMinutes <= 30){
+            userInfoOperation.addPoints(10L);
+        }else{
+            userInfoOperation.addPoints(5L);
+        }
+    }
+    public void confirmTransactionSale(Intention intention, UserInfoOperation userInfoOperation, String action, BigDecimal variationPercent){
+        if(variationPercent.compareTo(BigDecimal.valueOf(5)) > 0){
+            this.cancelBySystem(userInfoOperation);
+        }else{
+            evalAction(userInfoOperation, action, intention.getDate(), this.getDate());
+            this.setOperationQuantity(userInfoOperation.getOperations());
+            this.setReputation(userInfoOperation.getReputation());
+        }
+    }
+    public void cancelBySystem(UserInfoOperation userInfoOperation){
+        this.action = "CANCEL BY SYSTEM";
+        this.operationQuantity = userInfoOperation.getOperations();
+        this.reputation = userInfoOperation.getReputation();
     }
 }

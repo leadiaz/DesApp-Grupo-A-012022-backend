@@ -25,7 +25,14 @@ public class UserInfoOperation {
     public void addPoints(Long points){
         this.points += points;
     }
-    public void subsPoint(Long points){
+    public void subsPoints(Long points){
         this.points -= points;
+    }
+
+    public String getReputation() {
+        if(operations == 0){
+            return "No operations";
+        }
+        return String.valueOf(points / operations);
     }
 }

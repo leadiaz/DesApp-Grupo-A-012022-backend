@@ -55,11 +55,8 @@ public class UserService {
         UserTransactionIntentionDto userTransactionIntentionDto = new UserTransactionIntentionDto();
         userTransactionIntentionDto.setIntentions(intentionDtos);
         userTransactionIntentionDto.setOperationQuantity(userInfo.getOperations());
-        if(userInfo.getOperations() == 0){
-            userTransactionIntentionDto.setReputation("No operations");
-        }else{
-            userTransactionIntentionDto.setReputation(String.valueOf(userInfo.getPoints() / userInfo.getOperations()));
-        }
+        userTransactionIntentionDto.setReputation(userInfo.getReputation());
+
         return userTransactionIntentionDto;
     }
 

@@ -2,6 +2,9 @@ package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.operation.OperationType;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.operation.OperationTypeBuy;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.operation.OperationTypeSale;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,7 +25,7 @@ public class Intention {
     private Long nominalAmount;
     private String cryptoPrice;
     private String operationAmountArg;
-    private String operation;
+    private OperationType operation;
     @DBRef
     private User user;
     @CreatedDate
@@ -33,7 +36,7 @@ public class Intention {
         this.nominalAmount = intention.getNominalAmount();
         this.cryptoPrice = intention.getCryptoPrice();
         this.operationAmountArg = intention.getOperationAmountArg();
-        this.operation = intention.getOperation();
+        this.operation = intention.getOperation().equals("Buy") ? new OperationTypeBuy() : new OperationTypeSale();
         this.user = user;
     }
     public IntentionDto toDto(){
@@ -43,7 +46,7 @@ public class Intention {
         dto.setNominalAmount(nominalAmount);
         dto.setCryptoPrice(cryptoPrice);
         dto.setOperationAmountArg(operationAmountArg);
-        dto.setOperation(operation);
+        dto.setOperation(operation.getOperation());
         dto.setUser(user.toUserDto());
         return dto;
     }

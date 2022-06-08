@@ -5,6 +5,7 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Transaction;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TransactionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.request.TransactionRequest;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.operation.OperationType;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.UserInfoOperation;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.repositories.TransactionRepository;
@@ -44,31 +45,9 @@ public class TransactionService {
 
     private void checkPosibleTransaction(Intention intention, Transaction transaction, UserInfoOperation userInfoOperation, String action) {
         CryptoQuote cryptoQuote = cryptoQuoteService.getCrytoQuote(intention.getCrypto());
-        BigDecimal variationPercent = getVariationPercent(intention, cryptoQuote);
-        if(intention.getOperation().equals("Buy")){
-            permitSystemTransaction(transaction, userInfoOperation, action, variationPercent.compareTo(BigDecimal.valueOf(5)) > 0);
-        }else{
-            permitSystemTransaction(transaction, userInfoOperation, action, variationPercent.compareTo(BigDecimal.valueOf(5)) < 0);
-        }
+        OperationType operationType = intention.getOperation();
+        operationType.processOperation(transaction, intention, userInfoOperation, action, getVariationPercent(intention, cryptoQuote));
     }
-    private void permitSystemTransaction(Transaction transaction, UserInfoOperation userInfoOperation, String action, boolean valid){
-        if(valid){
-            cancelBySystem(transaction);
-        }else{
-            proccedActionTransaction(transaction, userInfoOperation, action);
-        }
-    }
-    private void proccedActionTransaction(Transaction transaction, UserInfoOperation userInfoOperation, String action) {
-        if(action.equals("CONFIRM")){
-            userInfoOperation.confirmOperation();
-            transaction.setAction("CONFIRM");
-            transaction.setOperationQuantity(userInfoOperation.getOperations());
-        }
-    }
-
-    private void cancelBySystem(Transaction transaction) {
-    }
-
     private BigDecimal getVariationPercent(Intention intention, CryptoQuote cryptoQuote) {
         float variation = (Float.valueOf(cryptoQuote.getUsdPrice()) / Float.valueOf(intention.getCryptoPrice())) -1;
         return new BigDecimal(variation*100).setScale(2, RoundingMode.HALF_UP);
