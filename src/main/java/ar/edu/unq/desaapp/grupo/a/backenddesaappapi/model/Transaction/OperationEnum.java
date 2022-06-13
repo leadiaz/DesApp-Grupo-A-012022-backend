@@ -5,4 +5,3 @@ public enum OperationEnum {
         PURCHASE,
         SALE
     }
-}
