@@ -21,8 +21,8 @@ public class CryptoQuoteController {
         this.cryptoQuoteService = cryptoQuoteService;
     }
     @GetMapping(value = "{crypto}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getCryptoQuote(@PathVariable("crypto") String cryptoType){
-        return ResponseEntity.ok(cryptoQuoteService.getCryptoQuote(cryptoType));
+    public ResponseEntity getCrytoQuote(@PathVariable("crypto") String cryptoType){
+        return ResponseEntity.ok(cryptoQuoteService.getCrytoQuote(cryptoType));
     }
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CryptoQuote> getAllCryptoQuote(){
