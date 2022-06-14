@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class IntentionRequest {
+    private String userEmail;
     private String crypto;
     private Long nominalAmount;
     private String cryptoPrice;
     private String operationAmountArg;
-    private String operation;
 }

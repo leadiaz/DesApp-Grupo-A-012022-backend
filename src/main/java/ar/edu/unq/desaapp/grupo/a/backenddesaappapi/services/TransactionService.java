@@ -5,7 +5,6 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Transaction;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TransactionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.request.TransactionRequest;
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.operation.OperationType;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.UserInfoOperation;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.repositories.TransactionRepository;
@@ -40,13 +39,15 @@ public class TransactionService {
         UserInfoOperation userInfoOperation = userInfoOperationService.findByUserId(intention.getUser().getId());
         Transaction transaction = new Transaction(intention, user);
         checkPosibleTransaction(intention, transaction, userInfoOperation, action);
-        return transaction.toDto();
+        return transactionRepository.save(transaction).toDto();
     }
 
     private void checkPosibleTransaction(Intention intention, Transaction transaction, UserInfoOperation userInfoOperation, String action) {
         CryptoQuote cryptoQuote = cryptoQuoteService.getCrytoQuote(intention.getCrypto());
-        OperationType operationType = intention.getOperation();
-        operationType.processOperation(transaction, intention, userInfoOperation, action, getVariationPercent(intention, cryptoQuote));
+        intention.getOperation().processOperation(transaction, intention, userInfoOperation, action, getVariationPercent(intention, cryptoQuote));
+        intention.setActive(false);
+        this.intentionService.save(intention);
+        this.userInfoOperationService.save(userInfoOperation);
     }
     private BigDecimal getVariationPercent(Intention intention, CryptoQuote cryptoQuote) {
         float variation = (Float.valueOf(cryptoQuote.getUsdPrice()) / Float.valueOf(intention.getCryptoPrice())) -1;

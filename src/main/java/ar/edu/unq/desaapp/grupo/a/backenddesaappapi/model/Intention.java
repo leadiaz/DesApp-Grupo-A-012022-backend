@@ -31,12 +31,14 @@ public class Intention {
     @CreatedDate
     private LocalDateTime date;
     private Boolean active = true;
-    public Intention(IntentionRequest intention, User user){
+    public Intention(){};
+    public Intention(IntentionRequest intention, User user, boolean isBuy){
         this.crypto = intention.getCrypto();
         this.nominalAmount = intention.getNominalAmount();
         this.cryptoPrice = intention.getCryptoPrice();
         this.operationAmountArg = intention.getOperationAmountArg();
-        this.operation = intention.getOperation().equals("Buy") ? new OperationTypeBuy() : new OperationTypeSale();
+        this.operation = isBuy ? new OperationTypeBuy() : new OperationTypeSale();
+        this.date = LocalDateTime.now();
         this.user = user;
     }
     public IntentionDto toDto(){
@@ -48,6 +50,7 @@ public class Intention {
         dto.setOperationAmountArg(operationAmountArg);
         dto.setOperation(operation.getOperation());
         dto.setUser(user.toUserDto());
+        dto.setDate(date);
         return dto;
     }
 }

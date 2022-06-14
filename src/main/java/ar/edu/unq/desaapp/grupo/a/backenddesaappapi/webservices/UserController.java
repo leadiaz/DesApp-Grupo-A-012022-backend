@@ -38,12 +38,17 @@ public class UserController {
         return ResponseEntity.ok(dto);
 
     }
-    @PostMapping(value = "intention/{email}",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<IntentionDto> createIntention(@PathVariable("email") String email, @RequestBody IntentionRequest intentionRequest){
-        return ResponseEntity.ok(userService.createIntention(email, intentionRequest));
+    @PostMapping(value = "intention/buy",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<IntentionDto> createIntentionBuy(@RequestBody IntentionRequest intentionRequest){
+        return ResponseEntity.ok(userService.createIntentionBuy(intentionRequest));
     }
-    @GetMapping(value = "intentions/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserTransactionIntentionDto> getAllActiveIntentions(@PathVariable("email") String email){
-        return ResponseEntity.ok(userService.getAllActiveIntentions(email));
+    @PostMapping(value = "intention/sale",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<IntentionDto> createIntentionSale(@RequestBody IntentionRequest intentionRequest){
+        return ResponseEntity.ok(userService.createIntentionSale(intentionRequest));
+    }
+
+    @GetMapping(value = "intentions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserTransactionIntentionDto> getAllActiveIntentions(@PathVariable("id") String id){
+        return ResponseEntity.ok(userService.getAllActiveIntentions(id));
     }
 }

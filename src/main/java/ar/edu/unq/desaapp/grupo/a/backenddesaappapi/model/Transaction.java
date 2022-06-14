@@ -22,7 +22,7 @@ public class Transaction {
     private Long nominalAmount;
     private String cryptoPrice;
     private String operationAmountArg;
-    private String operation;//Todo: provar si se puede usear operationType
+    private String operation;
     private UserDto interestedUser;
     private UserDto publisherUser;
     private String cvu;
@@ -41,6 +41,7 @@ public class Transaction {
         this.operation = intention.getOperation().getOperation();
         this.interestedUser = user.toUserDto();
         this.publisherUser = intention.getUser().toUserDto();
+        this.date = LocalDateTime.now();
         this.setAddress(user);
 
     }
@@ -53,7 +54,7 @@ public class Transaction {
     }
 
     public TransactionDto toDto() {
-        return new TransactionDto();
+        return new TransactionDto(this);
     }
 
     public void confirmTransactionBuy(Intention intention, UserInfoOperation userInfoOperation, String action, BigDecimal variationPercent) {
@@ -61,6 +62,7 @@ public class Transaction {
             this.cancelBySystem(userInfoOperation);
         }else{
             evalAction(userInfoOperation, action, intention.getDate(), this.getDate());
+            this.action = action;
             this.setOperationQuantity(userInfoOperation.getOperations());
             this.setReputation(userInfoOperation.getReputation());
         }
@@ -88,10 +90,11 @@ public class Transaction {
         }
     }
     public void confirmTransactionSale(Intention intention, UserInfoOperation userInfoOperation, String action, BigDecimal variationPercent){
-        if(variationPercent.compareTo(BigDecimal.valueOf(5)) > 0){
+        if(variationPercent.compareTo(BigDecimal.valueOf(-5)) < 0){
             this.cancelBySystem(userInfoOperation);
         }else{
             evalAction(userInfoOperation, action, intention.getDate(), this.getDate());
+            this.action = action;
             this.setOperationQuantity(userInfoOperation.getOperations());
             this.setReputation(userInfoOperation.getReputation());
         }
