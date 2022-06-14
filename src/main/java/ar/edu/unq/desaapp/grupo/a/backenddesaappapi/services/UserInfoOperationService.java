@@ -14,7 +14,11 @@ public class UserInfoOperationService {
         this.userInfoOperationRepository = userInfoOperationRepository;
     }
 
-    public UserInfoOperation findById(String id) {
-        return userInfoOperationRepository.findById(id).orElse(new UserInfoOperation(id));
+    public UserInfoOperation findByUserId(String id) {
+        return userInfoOperationRepository.findByUserId(id).orElse(new UserInfoOperation(id));
+    }
+
+    public UserInfoOperation save(UserInfoOperation userInfoOperation) {
+        return this.userInfoOperationRepository.save(userInfoOperation);
     }
 }

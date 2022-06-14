@@ -18,4 +18,21 @@ public class UserInfoOperation {
         this.points = 0L;
         this.operations = 0L;
     }
+
+    public void confirmOperation() {
+        operations += 1;
+    }
+    public void addPoints(Long points){
+        this.points += points;
+    }
+    public void subsPoints(Long points){
+        this.points -= points;
+    }
+
+    public String getReputation() {
+        if(operations == 0){
+            return "No operations";
+        }
+        return String.valueOf(points / operations);
+    }
 }

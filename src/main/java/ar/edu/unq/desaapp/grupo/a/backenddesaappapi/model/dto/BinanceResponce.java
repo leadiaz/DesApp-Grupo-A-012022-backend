@@ -5,11 +5,11 @@ import lombok.Data;
 @Data
 public class BinanceResponce {
     @JsonProperty("symbol")
-    private String crypto;
+    private String symbol;
     private String price;
 
-    public BinanceResponce(String symbol, String price){
-        crypto = symbol;
-        this.price = price;
-    }
+//    public BinanceResponce(String symbol, String price){
+//        this.symbol = symbol;
+//        this.price = price;
+//    }
 }

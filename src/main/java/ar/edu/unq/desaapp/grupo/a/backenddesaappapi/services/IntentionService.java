@@ -1,5 +1,6 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services;
 
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.exception.EntityNotFoundException;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
@@ -20,8 +21,8 @@ public class IntentionService {
         this.intentionRepository = intentionRepository;
     }
     @Transactional
-    public IntentionDto createIntention(User user, IntentionRequest intentionRequest) {
-        Intention intention = new Intention(intentionRequest, user);
+    public IntentionDto createIntention(User user, IntentionRequest intentionRequest, boolean isBuy) {
+        Intention intention = new Intention(intentionRequest, user, isBuy);
         return intentionRepository.save(intention).toDto();
     }
 
@@ -29,5 +30,13 @@ public class IntentionService {
         return intentionRepository.findAllByUserAndActive(user, true)
                 .stream()
                 .map(Intention::toDto).collect(Collectors.toList());
+    }
+
+    public Intention getIntentionById(String idIntention) {
+        return intentionRepository.findById(idIntention).orElseThrow(()-> new EntityNotFoundException("Intention not found"));
+    }
+
+    public Intention save(Intention intention) {
+        return this.intentionRepository.save(intention);
     }
 }

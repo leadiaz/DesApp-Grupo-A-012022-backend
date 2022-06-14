@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 public class UserTransactionIntentionDto {
-    private Long operationAmount;
+    private Long operationQuantity;
     private String reputation;
     private List<IntentionDto> intentions;
 

@@ -43,28 +43,36 @@ public class UserService {
         return userRepository.findAll().stream().map(User::toDto).collect(Collectors.toList());
     }
     @Transactional
-    public IntentionDto createIntention(String email, IntentionRequest intentionRequest) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new EntityNotFoundException("User Not found"));
-        return intentionService.createIntention(user, intentionRequest);
+    public IntentionDto createIntentionBuy(IntentionRequest intentionRequest){
+        return createIntention(intentionRequest, true);
     }
     @Transactional
-    public UserTransactionIntentionDto getAllActiveIntentions(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()-> new EntityNotFoundException("User Not found"));
-        UserInfoOperation userInfo = userInfoOperationService.findById(email);
+    public IntentionDto createIntentionSale(IntentionRequest intentionRequest){
+        return createIntention(intentionRequest, false);
+    }
+    private IntentionDto createIntention(IntentionRequest intentionRequest, boolean isBuy) {
+        User user = userRepository.findByEmail(intentionRequest.getUserEmail()).orElseThrow(()-> new EntityNotFoundException("User Not found"));
+        return intentionService.createIntention(user, intentionRequest, isBuy);
+    }
+    @Transactional
+    public UserTransactionIntentionDto getAllActiveIntentions(String id) {
+        User user = userRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("User Not found"));
+        UserInfoOperation userInfo = userInfoOperationService.findByUserId(user.getId());
         List<IntentionDto> intentionDtos = intentionService.findAllIntentionsActiveByUser(user);
         UserTransactionIntentionDto userTransactionIntentionDto = new UserTransactionIntentionDto();
         userTransactionIntentionDto.setIntentions(intentionDtos);
-        userTransactionIntentionDto.setOperationAmount(userInfo.getOperations());
-        if(userInfo.getOperations() == 0){
-            userTransactionIntentionDto.setReputation("No operations");
-        }else{
-            userTransactionIntentionDto.setReputation(String.valueOf(userInfo.getPoints() / userInfo.getOperations()));
-        }
+        userTransactionIntentionDto.setOperationQuantity(userInfo.getOperations());
+        userTransactionIntentionDto.setReputation(userInfo.getReputation());
+
         return userTransactionIntentionDto;
     }
 
     public UserDto login(LoginUserDto body) {
         User user = userRepository.findByEmailAndPassword(body.getEmail(), body.getPassword()).orElseThrow(() ->new EntityNotFoundException("Invalid Email or Password"));
         return user.toUserDto();
+    }
+
+    public User getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail).orElseThrow(()->new EntityNotFoundException("User not found with this email"));
     }
 }
