@@ -1,12 +1,13 @@
-package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
+package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices.secure;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.jwt.JwtResponseDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
-import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserTransactionIntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.jwt.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,12 @@ import java.util.List;
 @RequestMapping("user")
 public class UserController {
     private UserService userService;
+    private AuthService authService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AuthService authService) {
         this.userService = userService;
+        this.authService = authService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -33,9 +36,9 @@ public class UserController {
         return this.userService.getAll();
     }
     @PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> login(@RequestBody LoginUserDto body){
-        UserDto dto = userService.login(body);
-        return ResponseEntity.ok(dto);
+    public ResponseEntity<JwtResponseDto> login(@RequestBody LoginUserDto authenticationRequest) throws Exception {
+        String token = authService.createAuthenticationToken(authenticationRequest);
+        return ResponseEntity.ok(new JwtResponseDto(token));
 
     }
     @PostMapping(value = "intention/buy",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

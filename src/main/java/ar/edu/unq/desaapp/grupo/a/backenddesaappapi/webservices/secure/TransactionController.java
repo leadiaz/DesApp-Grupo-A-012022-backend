@@ -1,4 +1,4 @@
-package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
+package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices.secure;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.request.TransactionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.TransactionService;

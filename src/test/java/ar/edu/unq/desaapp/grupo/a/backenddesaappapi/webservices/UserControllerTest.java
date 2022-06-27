@@ -5,6 +5,7 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.util.ObjectMapperString;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices.secure.UserController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

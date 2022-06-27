@@ -2,6 +2,7 @@ package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoQuote;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.CryptoQuoteService;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices.secure.CryptoQuoteController;
 import org.hamcrest.collection.IsCollectionWithSize;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
