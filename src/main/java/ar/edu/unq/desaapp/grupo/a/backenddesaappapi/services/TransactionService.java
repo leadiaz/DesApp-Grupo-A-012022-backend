@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,13 +63,13 @@ public class TransactionService {
     }
 
 
-    public List<TradedVolumeDto> getTradedVolume(LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<TradedVolumeDto> getTradedVolume(Date fromDate,Date toDate) {
         List<IntentionDto> intentionDtos = intentionService.findAllIntentions();
-        List<TradedVolumeDto> tradedVolumeDtos = new ArrayList<TradedVolumeDto>();
+        List<TradedVolumeDto> tradedVolumeDtos = new ArrayList<>();
 
         for (CryptoAssetsEnum crypto : CryptoAssetsEnum.values()) {
             TradedVolumeDto tradedVolumeDto = new TradedVolumeDto();
-            tradedVolumeDto.setDateAndTime(LocalDateTime.now());
+            tradedVolumeDto.setDateAndTime(LocalDateTime.now().toString());
             tradedVolumeDto.setCrypto(crypto.toString());
             long totalValueOperatedUSD = 0;
             long totalValueOperatedArgentinianPesos = 0;
@@ -82,6 +84,7 @@ public class TransactionService {
                     intentionDtos.remove(intentiondto);
                 }
             }
+
             tradedVolumeDto.setTotalNominalAmount(totalNominalAmount);
             tradedVolumeDto.setTotalValueOperatedArgentinianPesos(totalValueOperatedArgentinianPesos);
             tradedVolumeDto.setTotalValueOperatedUSD(totalValueOperatedUSD);
@@ -94,8 +97,16 @@ public class TransactionService {
         return tradedVolumeDtos;
     }
 
-    private boolean isInsideTimeWindow(LocalDateTime date, LocalDateTime fromDate, LocalDateTime toDate) {
-        return date.isBefore(toDate) && date.isAfter(fromDate);
+    private boolean isInsideTimeWindow(LocalDateTime date, Date fromDate, Date toDate) {
+        LocalDateTime from = fromDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        LocalDateTime to = fromDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        return date.isBefore(from) && date.isAfter(to);
     }
 
 }

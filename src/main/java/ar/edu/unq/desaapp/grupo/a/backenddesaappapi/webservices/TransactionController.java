@@ -33,14 +33,8 @@ public class TransactionController {
 
     @GetMapping(value="transaction/{from}/{to}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTradedVolume(@PathVariable("from") @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate , @PathVariable("to") @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate){
-        LocalDateTime from = fromDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
 
-        LocalDateTime to = fromDate.toInstant()
-                .atZone(ZoneId.systemDefault())
-                .toLocalDateTime();
 
-        return ResponseEntity.ok(transactionService.getTradedVolume(from, to));
+        return ResponseEntity.ok(transactionService.getTradedVolume(fromDate, toDate));
     }
 }
