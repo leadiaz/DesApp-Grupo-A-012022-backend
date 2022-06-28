@@ -71,15 +71,15 @@ public class TransactionService {
             TradedVolumeDto tradedVolumeDto = new TradedVolumeDto();
             tradedVolumeDto.setDateAndTime(LocalDateTime.now().toString());
             tradedVolumeDto.setCrypto(crypto.toString());
-            long totalValueOperatedUSD = 0;
-            long totalValueOperatedArgentinianPesos = 0;
-            long totalNominalAmount = 0;
+            float totalValueOperatedUSD = 0;
+            float totalValueOperatedArgentinianPesos = 0;
+            float totalNominalAmount = 0;
 
 
             for (IntentionDto intentiondto : intentionDtos) {
                 if (intentiondto.getCrypto().equals(crypto.name()) && isInsideTimeWindow(intentiondto.getDate(), fromDate, toDate)) {
-                    totalValueOperatedUSD += Long.parseLong(intentiondto.getCryptoPrice());
-                    totalValueOperatedArgentinianPesos += Long.parseLong(intentiondto.getOperationAmountArg());
+                    totalValueOperatedUSD += Float.parseFloat(intentiondto.getCryptoPrice());
+                    totalValueOperatedArgentinianPesos += Float.parseFloat(intentiondto.getOperationAmountArg());
                     totalNominalAmount += intentiondto.getNominalAmount();
                 }
             }
@@ -88,8 +88,8 @@ public class TransactionService {
             tradedVolumeDto.setTotalValueOperatedArgentinianPesos(totalValueOperatedArgentinianPesos);
             tradedVolumeDto.setTotalValueOperatedUSD(totalValueOperatedUSD);
 
-            tradedVolumeDto.setCurrentValueUSD(Long.parseLong(cryptoQuoteService.getCrytoQuote(crypto.toString()).getUsdPrice())) ;
-            tradedVolumeDto.setCurrentValueArgentinianPesos(Long.parseLong(cryptoQuoteService.getCrytoQuote(crypto.toString()).getPesosPrice()));
+            tradedVolumeDto.setCurrentValueUSD(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getUsdPrice())) ;
+            tradedVolumeDto.setCurrentValueArgentinianPesos(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getPesosPrice()));
 
             tradedVolumeDtos.add(tradedVolumeDto);
         }

@@ -6,11 +6,11 @@ import lombok.Data;
 @Data
 public class TradedVolumeDto {
     private String dateAndTime;
-    private Long totalValueOperatedUSD;
-    private Long totalValueOperatedArgentinianPesos;
+    private Float totalValueOperatedUSD;
+    private Float totalValueOperatedArgentinianPesos;
 
     private String crypto;
-    private Long totalNominalAmount;
-    private Long currentValueUSD;
-    private Long currentValueArgentinianPesos;
+    private Float totalNominalAmount;
+    private Float currentValueUSD;
+    private Float currentValueArgentinianPesos;
 }
