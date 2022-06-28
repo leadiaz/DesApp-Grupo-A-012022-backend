@@ -77,11 +77,10 @@ public class TransactionService {
 
 
             for (IntentionDto intentiondto : intentionDtos) {
-                if (intentiondto.getCrypto().equals(crypto.toString()) && isInsideTimeWindow(intentiondto.getDate(), fromDate, toDate)) {
+                if (intentiondto.getCrypto().equals(crypto.name()) && isInsideTimeWindow(intentiondto.getDate(), fromDate, toDate)) {
                     totalValueOperatedUSD += Long.parseLong(intentiondto.getCryptoPrice());
                     totalValueOperatedArgentinianPesos += Long.parseLong(intentiondto.getOperationAmountArg());
                     totalNominalAmount += intentiondto.getNominalAmount();
-                    intentionDtos.remove(intentiondto);
                 }
             }
 
@@ -108,5 +107,4 @@ public class TransactionService {
 
         return date.isAfter(from) && date.isBefore(to);
     }
-
 }
