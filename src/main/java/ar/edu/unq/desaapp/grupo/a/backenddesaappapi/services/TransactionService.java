@@ -1,8 +1,11 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services;
 
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoAssetsEnum;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoQuote;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Transaction;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TradedVolumeDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TransactionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.request.TransactionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
@@ -13,6 +16,11 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -52,5 +60,51 @@ public class TransactionService {
     private BigDecimal getVariationPercent(Intention intention, CryptoQuote cryptoQuote) {
         float variation = (Float.valueOf(cryptoQuote.getUsdPrice()) / Float.valueOf(intention.getCryptoPrice())) -1;
         return new BigDecimal(variation*100).setScale(2, RoundingMode.HALF_UP);
+    }
+
+
+    public List<TradedVolumeDto> getTradedVolume(Date fromDate,Date toDate) {
+        List<IntentionDto> intentionDtos = intentionService.findAllIntentions();
+        List<TradedVolumeDto> tradedVolumeDtos = new ArrayList<>();
+
+        for (CryptoAssetsEnum crypto : CryptoAssetsEnum.values()) {
+            TradedVolumeDto tradedVolumeDto = new TradedVolumeDto();
+            tradedVolumeDto.setDateAndTime(LocalDateTime.now().toString());
+            tradedVolumeDto.setCrypto(crypto.toString());
+            float totalValueOperatedUSD = 0;
+            float totalValueOperatedArgentinianPesos = 0;
+            float totalNominalAmount = 0;
+
+
+            for (IntentionDto intentiondto : intentionDtos) {
+                if (intentiondto.getCrypto().equals(crypto.name()) && isInsideTimeWindow(intentiondto.getDate(), fromDate, toDate)) {
+                    totalValueOperatedUSD += Float.parseFloat(intentiondto.getCryptoPrice());
+                    totalValueOperatedArgentinianPesos += Float.parseFloat(intentiondto.getOperationAmountArg());
+                    totalNominalAmount += intentiondto.getNominalAmount();
+                }
+            }
+
+            tradedVolumeDto.setTotalNominalAmount(totalNominalAmount);
+            tradedVolumeDto.setTotalValueOperatedArgentinianPesos(totalValueOperatedArgentinianPesos);
+            tradedVolumeDto.setTotalValueOperatedUSD(totalValueOperatedUSD);
+
+            tradedVolumeDto.setCurrentValueUSD(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getUsdPrice())) ;
+            tradedVolumeDto.setCurrentValueArgentinianPesos(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getPesosPrice()));
+
+            tradedVolumeDtos.add(tradedVolumeDto);
+        }
+        return tradedVolumeDtos;
+    }
+
+    private boolean isInsideTimeWindow(LocalDateTime date, Date fromDate, Date toDate) {
+        LocalDateTime from = fromDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        LocalDateTime to = toDate.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+
+        return date.isAfter(from) && date.isBefore(to);
     }
 }

@@ -39,4 +39,10 @@ public class IntentionService {
     public Intention save(Intention intention) {
         return this.intentionRepository.save(intention);
     }
+
+    public List<IntentionDto> findAllIntentions() {
+        return intentionRepository.findAll()
+                .stream()
+                .map(Intention::toDto).collect(Collectors.toList());
+    }
 }
