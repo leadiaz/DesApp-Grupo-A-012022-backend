@@ -102,11 +102,11 @@ public class TransactionService {
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
-        LocalDateTime to = fromDate.toInstant()
+        LocalDateTime to = toDate.toInstant()
                 .atZone(ZoneId.systemDefault())
                 .toLocalDateTime();
 
-        return date.isBefore(from) && date.isAfter(to);
+        return date.isAfter(from) && date.isBefore(to);
     }
 
 }

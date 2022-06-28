@@ -31,10 +31,11 @@ public class TransactionController {
         return ResponseEntity.ok(transactionService.acceptIntetion(body));
     }
 
+    @Operation(
+            security = {@SecurityRequirement(name = "bearer")}
+    )
     @GetMapping(value="transaction/{from}/{to}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getTradedVolume(@PathVariable("from") @DateTimeFormat(pattern="yyyy-MM-dd") Date fromDate , @PathVariable("to") @DateTimeFormat(pattern="yyyy-MM-dd") Date toDate){
-
-
         return ResponseEntity.ok(transactionService.getTradedVolume(fromDate, toDate));
     }
 }
