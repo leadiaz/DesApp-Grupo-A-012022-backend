@@ -56,7 +56,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 // authenticate these particular requests
                 .authorizeRequests()
-                .antMatchers("/ping").authenticated()
+                .antMatchers("/quote/all").authenticated()
+                .antMatchers("/quote/{crypto}").authenticated()
+                .antMatchers("/transaction/process").authenticated()
+                .antMatchers("/user/all").authenticated()
+                .antMatchers("/user/intentions/{id}").authenticated()
+                .antMatchers("/user/intention/buy").authenticated()
+                .antMatchers("/user/intention/sale").authenticated()
                 // all other requests don't need to be authenticated
                 .anyRequest().permitAll()
                 .and()
