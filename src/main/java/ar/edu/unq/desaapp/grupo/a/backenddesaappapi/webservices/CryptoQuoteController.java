@@ -2,6 +2,8 @@ package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoQuote;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.CryptoQuoteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +22,16 @@ public class CryptoQuoteController {
     public CryptoQuoteController(CryptoQuoteService cryptoQuoteService) {
         this.cryptoQuoteService = cryptoQuoteService;
     }
+    @Operation(
+            security = {@SecurityRequirement(name = "bearer")}
+    )
     @GetMapping(value = "{crypto}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity getCryptoQuote(@PathVariable("crypto") String cryptoType){
         return ResponseEntity.ok(cryptoQuoteService.getCrytoQuote(cryptoType));
     }
+    @Operation(
+            security = {@SecurityRequirement(name = "bearer")}
+    )
     @GetMapping(value = "all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<CryptoQuote> getAllCryptoQuote(){
         return cryptoQuoteService.getAllCryptoQuote();
