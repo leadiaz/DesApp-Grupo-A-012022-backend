@@ -1,8 +1,11 @@
 package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services;
 
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoAssetsEnum;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.CryptoQuote;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Intention;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.Transaction;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TradedVolumeDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.TransactionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.request.TransactionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.User;
@@ -13,6 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -53,4 +59,43 @@ public class TransactionService {
         float variation = (Float.valueOf(cryptoQuote.getUsdPrice()) / Float.valueOf(intention.getCryptoPrice())) -1;
         return new BigDecimal(variation*100).setScale(2, RoundingMode.HALF_UP);
     }
+
+
+    public List<TradedVolumeDto> getTradedVolume(LocalDateTime fromDate, LocalDateTime toDate) {
+        List<IntentionDto> intentionDtos = intentionService.findAllIntentions();
+        List<TradedVolumeDto> tradedVolumeDtos = new ArrayList<TradedVolumeDto>();
+
+        for (CryptoAssetsEnum crypto : CryptoAssetsEnum.values()) {
+            TradedVolumeDto tradedVolumeDto = new TradedVolumeDto();
+            tradedVolumeDto.setDateAndTime(LocalDateTime.now());
+            tradedVolumeDto.setCrypto(crypto.toString());
+            long totalValueOperatedUSD = 0;
+            long totalValueOperatedArgentinianPesos = 0;
+            long totalNominalAmount = 0;
+
+
+            for (IntentionDto intentiondto : intentionDtos) {
+                if (intentiondto.getCrypto().equals(crypto.toString()) && isInsideTimeWindow(intentiondto.getDate(), fromDate, toDate)) {
+                    totalValueOperatedUSD += Long.parseLong(intentiondto.getCryptoPrice());
+                    totalValueOperatedArgentinianPesos += Long.parseLong(intentiondto.getOperationAmountArg());
+                    totalNominalAmount += intentiondto.getNominalAmount();
+                    intentionDtos.remove(intentiondto);
+                }
+            }
+            tradedVolumeDto.setTotalNominalAmount(totalNominalAmount);
+            tradedVolumeDto.setTotalValueOperatedArgentinianPesos(totalValueOperatedArgentinianPesos);
+            tradedVolumeDto.setTotalValueOperatedUSD(totalValueOperatedUSD);
+
+            tradedVolumeDto.setCurrentValueUSD(Long.parseLong(cryptoQuoteService.getCrytoQuote(crypto.toString()).getUsdPrice())) ;
+            tradedVolumeDto.setCurrentValueArgentinianPesos(Long.parseLong(cryptoQuoteService.getCrytoQuote(crypto.toString()).getPesosPrice()));
+
+            tradedVolumeDtos.add(tradedVolumeDto);
+        }
+        return tradedVolumeDtos;
+    }
+
+    private boolean isInsideTimeWindow(LocalDateTime date, LocalDateTime fromDate, LocalDateTime toDate) {
+        return date.isBefore(toDate) && date.isAfter(fromDate);
+    }
+
 }
