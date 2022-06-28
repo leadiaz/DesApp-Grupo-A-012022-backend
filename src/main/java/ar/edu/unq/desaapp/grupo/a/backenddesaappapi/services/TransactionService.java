@@ -73,7 +73,7 @@ public class TransactionService {
             tradedVolumeDto.setCrypto(crypto.toString());
             float totalValueOperatedUSD = 0;
             float totalValueOperatedArgentinianPesos = 0;
-            float totalNominalAmount = 0;
+            long totalNominalAmount = 0;
 
 
             for (IntentionDto intentiondto : intentionDtos) {

@@ -10,7 +10,7 @@ public class TradedVolumeDto {
     private Float totalValueOperatedArgentinianPesos;
 
     private String crypto;
-    private Float totalNominalAmount;
+    private Long totalNominalAmount;
     private Float currentValueUSD;
     private Float currentValueArgentinianPesos;
 }
