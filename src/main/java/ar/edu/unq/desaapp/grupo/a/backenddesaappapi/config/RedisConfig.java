@@ -13,15 +13,15 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
-    @Value("${redis.host}")
+    /*@Value("${redis.host}")
     private String host;
     @Value("${redis.port}")
-    private int port;
+    private int port;*/
     @Bean
     public JedisConnectionFactory connectionFactory(){
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-        configuration.setHostName(host);
-        configuration.setPort(port);
+        configuration.setHostName("ec2-107-22-43-200.compute-1.amazonaws.com");
+        configuration.setPort(11470);
         return new JedisConnectionFactory(configuration);
     }
     @Bean
