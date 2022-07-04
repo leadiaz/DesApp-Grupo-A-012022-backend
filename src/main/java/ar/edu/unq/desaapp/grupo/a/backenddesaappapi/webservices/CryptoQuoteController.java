@@ -37,8 +37,4 @@ public class CryptoQuoteController {
     public List<CryptoQuoteDto> getAllCryptoQuote(){
         return cryptoQuoteService.getAllCryptoQuote();
     }
-    @GetMapping(value = "latestQuote/{crypto}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<CryptoQuoteDto> getLatestQuote(@PathVariable("crypto") String cryptoQuote){
-        return cryptoQuoteService.getLatestQuote(cryptoQuote);
-    }
 }
