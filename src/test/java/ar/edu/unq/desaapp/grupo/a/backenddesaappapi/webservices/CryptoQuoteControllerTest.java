@@ -28,7 +28,7 @@
 //    @Test
 //    public void testGetETHQuote() throws Exception{
 //        CryptoQuote crypto = new CryptoQuote("ETHUSDT", "1851.36000000", "234030.42");
-//        when(service.getCrytoQuote("ETHUSDT")).thenReturn(crypto);
+//        when(service.getCryptoQuote("ETHUSDT")).thenReturn(crypto);
 //        mvc.perform(get("/quote/{symbol}", "ETHUSDT").contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.usdPrice").value("1851.36000000"))

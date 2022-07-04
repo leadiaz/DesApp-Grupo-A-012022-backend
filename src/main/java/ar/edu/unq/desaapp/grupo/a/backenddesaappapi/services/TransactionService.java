@@ -51,7 +51,7 @@ public class TransactionService {
     }
 
     private void checkPosibleTransaction(Intention intention, Transaction transaction, UserInfoOperation userInfoOperation, String action) {
-        CryptoQuote cryptoQuote = cryptoQuoteService.getCrytoQuote(intention.getCrypto());
+        CryptoQuote cryptoQuote = cryptoQuoteService.getCryptoQuote(intention.getCrypto());
         intention.getOperation().processOperation(transaction, intention, userInfoOperation, action, getVariationPercent(intention, cryptoQuote));
         intention.setActive(false);
         this.intentionService.save(intention);
@@ -88,8 +88,8 @@ public class TransactionService {
             tradedVolumeDto.setTotalValueOperatedArgentinianPesos(totalValueOperatedArgentinianPesos);
             tradedVolumeDto.setTotalValueOperatedUSD(totalValueOperatedUSD);
 
-            tradedVolumeDto.setCurrentValueUSD(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getUsdPrice())) ;
-            tradedVolumeDto.setCurrentValueArgentinianPesos(Float.parseFloat(cryptoQuoteService.getCrytoQuote(crypto.toString()).getPesosPrice()));
+            tradedVolumeDto.setCurrentValueUSD(Float.parseFloat(cryptoQuoteService.getCryptoQuote(crypto.toString()).getUsdPrice())) ;
+            tradedVolumeDto.setCurrentValueArgentinianPesos(Float.parseFloat(cryptoQuoteService.getCryptoQuote(crypto.toString()).getPesosPrice()));
 
             tradedVolumeDtos.add(tradedVolumeDto);
         }
