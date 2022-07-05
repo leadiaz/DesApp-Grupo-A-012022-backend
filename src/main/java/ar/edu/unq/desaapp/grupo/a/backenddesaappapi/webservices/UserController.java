@@ -3,9 +3,11 @@ package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.webservices;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.jwt.JwtResponseDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.UserInfoOperation;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserTransactionIntentionDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserInfoOperationService;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserService;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.jwt.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,6 +24,7 @@ import java.util.List;
 public class UserController {
     private UserService userService;
     private AuthService authService;
+    private UserInfoOperationService userInfoOperationRepository;
 
     @Autowired
     public UserController(UserService userService, AuthService authService) {
@@ -67,5 +70,13 @@ public class UserController {
     @GetMapping(value = "intentions/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserTransactionIntentionDto> getAllActiveIntentions(@PathVariable("id") String id){
         return ResponseEntity.ok(userService.getAllActiveIntentions(id));
+    }
+
+    @Operation(
+            security = {@SecurityRequirement(name = "bearer")}
+    )
+    @GetMapping(value= "allUserInfoOperation", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserInfoOperation> getAllUserInfoOperation(){
+        return this.userInfoOperationRepository.getAllUserInfoOperation();
     }
 }
