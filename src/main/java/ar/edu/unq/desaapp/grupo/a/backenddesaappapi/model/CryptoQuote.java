@@ -4,14 +4,15 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.CryptoQuoteDto;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@Document
-public class CryptoQuote {
+@RedisHash("CryptoQuote")
+public class CryptoQuote implements Serializable {
     @Id
-    private String id;
     private String crypto;
     private String usdPrice;
     private String pesosPrice;
@@ -29,6 +30,7 @@ public class CryptoQuote {
         dto.setCrypto(crypto);
         dto.setPesosPrice(pesosPrice);
         dto.setUsdPrice(usdPrice);
+        dto.setDate(date);
         return dto;
     }
 }
