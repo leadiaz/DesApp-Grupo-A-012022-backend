@@ -22,11 +22,8 @@ public class RedisConfig {
     @Bean
     public JedisConnectionFactory connectionFactory(){
         RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
-        configuration.setHostName("ec2-107-22-43-200.compute-1.amazonaws.com");
-//        configuration.setHostName("localhost");
-        configuration.setPassword(RedisPassword.of("pc4e91c60e50c977987ea31a8fbcce19797190cee78481c2345f709cfa024ad65"));
-        configuration.setPort(11470);
-//        configuration.setPort(6379);
+        configuration.setHostName("localhost");
+        configuration.setPort(6379);
         return new JedisConnectionFactory(configuration);
     }
     @Bean
