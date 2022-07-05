@@ -5,6 +5,7 @@ import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.IntentionRequest;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.dto.jwt.JwtResponseDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.UserInfoOperation;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.LoginUserDto;
+import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserInfoOperationDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserRegisterDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model.user.dto.UserTransactionIntentionDto;
 import ar.edu.unq.desaapp.grupo.a.backenddesaappapi.services.UserInfoOperationService;
@@ -76,7 +77,7 @@ public class UserController {
             security = {@SecurityRequirement(name = "bearer")}
     )
     @GetMapping(value= "allUserInfoOperation", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<UserInfoOperation> getAllUserInfoOperation(){
+    public List<UserInfoOperationDto> getAllUserInfoOperation(){
         return this.userInfoOperationRepository.getAllUserInfoOperation();
     }
 }
