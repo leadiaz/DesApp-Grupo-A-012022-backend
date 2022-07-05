@@ -26,7 +26,7 @@
 //                            java.time.LocalTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE),
 //                            cryptoAssetValue.getCryptoAssetValue(ca));
 //
-//            //todo: persistance of hourlyCryptoAssetData
+//
 //        }
 //
 //    }
