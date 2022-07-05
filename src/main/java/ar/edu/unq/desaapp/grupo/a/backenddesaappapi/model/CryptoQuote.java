@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-@RedisHash("CryptoQuote")
+@RedisHash("cryptoQuote")
 public class CryptoQuote implements Serializable {
     @Id
     private String crypto;
