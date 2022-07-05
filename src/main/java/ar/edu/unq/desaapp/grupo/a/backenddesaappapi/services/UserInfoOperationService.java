@@ -20,8 +20,9 @@ public class UserInfoOperationService {
     private UserRepository userRepository;
 
     @Autowired
-    public UserInfoOperationService(UserInfoOperationRepository userInfoOperationRepository) {
+    public UserInfoOperationService(UserInfoOperationRepository userInfoOperationRepository, UserRepository userRepository ) {
         this.userInfoOperationRepository = userInfoOperationRepository;
+        this.userRepository = userRepository;
     }
 
     public UserInfoOperation findByUserId(String id) {
