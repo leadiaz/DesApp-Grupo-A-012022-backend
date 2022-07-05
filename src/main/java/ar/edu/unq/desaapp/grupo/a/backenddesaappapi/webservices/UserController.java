@@ -25,12 +25,13 @@ import java.util.List;
 public class UserController {
     private UserService userService;
     private AuthService authService;
-    private UserInfoOperationService userInfoOperationRepository;
+    private UserInfoOperationService userInfoOperationService;
 
     @Autowired
-    public UserController(UserService userService, AuthService authService) {
+    public UserController(UserService userService, AuthService authService,UserInfoOperationService userInfoOperationService) {
         this.userService = userService;
         this.authService = authService;
+        this.userInfoOperationService = userInfoOperationService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -78,6 +79,6 @@ public class UserController {
     )
     @GetMapping(value= "allUserInfoOperation", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserInfoOperationDto> getAllUserInfoOperation(){
-        return this.userInfoOperationRepository.getAllUserInfoOperation();
+        return this.userInfoOperationService.getAllUserInfoOperation();
     }
 }
