@@ -64,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/intention/buy").authenticated()
                 .antMatchers("/user/intention/sale").authenticated()
                 .antMatchers("/transaction/{from}/{to}").authenticated()
+                .antMatchers("/user/allUserInfoOperation").authenticated()
                 // all other requests don't need to be authenticated
                 .anyRequest().permitAll()
                 .and()

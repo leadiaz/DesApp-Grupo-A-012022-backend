@@ -1,5 +1,5 @@
 // deprecated code
-
+//
 //package ar.edu.unq.desaapp.grupo.a.backenddesaappapi.model;
 //
 //public class HourlyCryptoAssetData {

@@ -75,4 +75,5 @@ public class UserService {
     public User getUserByEmail(String userEmail) {
         return userRepository.findByEmail(userEmail).orElseThrow(()->new EntityNotFoundException("User not found with this email"));
     }
+
 }
