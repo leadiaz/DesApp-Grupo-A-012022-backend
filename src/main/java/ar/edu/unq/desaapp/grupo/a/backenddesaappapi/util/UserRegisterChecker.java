@@ -147,7 +147,7 @@ public class UserRegisterChecker {
     }
 
     private static boolean containsSpecialCharcter(String passToCheck) {
-        String specialCharacters = "#$%&'()*+,-./:;<=>?@[]^_`{|}~\\";
+        String specialCharacters = "!#$%&'()*+,-./:;<=>?@[]^_`{|}~\\";
         char[] chars = specialCharacters.toCharArray();
         for (char ch: chars) {
             if (passToCheck.contains(String.valueOf(ch))){
