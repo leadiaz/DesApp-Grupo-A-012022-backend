@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class CryptoQuoteService {
     private final CryptoQuoteRepository cryptoQuoteRepository;
     private final RedisTemplate redisTemplate;
-    private static String HASH_KEY = "CryptoQuote";
+    private static String HASH_KEY = "cryptoQuote";
     private List<String> cryptoSymbols = Arrays.asList(
             "ALICEUSDT",
             "MATICUSDT",
