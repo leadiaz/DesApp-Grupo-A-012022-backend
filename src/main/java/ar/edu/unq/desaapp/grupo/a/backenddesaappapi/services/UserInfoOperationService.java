@@ -44,7 +44,7 @@ public class UserInfoOperationService {
             User user = userRepository.findById(userInfoOperation.getUserId()).orElseThrow(()-> new EntityNotFoundException("User not found"));
 
             userInfoOperationDto.setOperations(userInfoOperation.getOperations());
-            userInfoOperationDto.setReputation(Long.parseLong(userInfoOperation.getReputation()));
+            userInfoOperationDto.setReputation((userInfoOperation.getReputation()));
             userInfoOperationDto.setName(user.getName());
             userInfoOperationDto.setSurname(user.getSurname());
 

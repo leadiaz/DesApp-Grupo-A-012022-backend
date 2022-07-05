@@ -6,6 +6,6 @@ import lombok.Data;
 public class UserInfoOperationDto {
     private String name;
     private String surname;
-    private Long reputation;
+    private String reputation;
     private Long operations;
 }
